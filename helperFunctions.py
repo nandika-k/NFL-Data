@@ -99,7 +99,7 @@ def urlConvertor(name, year, playerindex, advanced: bool):
 
 
 def rosterScraper(TeamID, year, id_number):
-    url = f"https://www.basketball-reference.com/teams/{TeamID}/{year}.html"
+    url = f"https://www.pro-football-reference.com/years/{year}"
     result = requests.get(url)
     try:
         src = result.content
@@ -130,14 +130,15 @@ def rosterScraper(TeamID, year, id_number):
 
 
 
-
+#UPDATED for NFL
 def teamFinder(year):
     team_id = 101
-    url = f"https://www.basketball-reference.com/leagues/NBA_{year}.html"
+    url = f"https://www.pro-football-reference.com/years/{year}"
     result = requests.get(url)
     src = result.content
     soup = BeautifulSoup(src, 'lxml')
-    table = soup.find('table', {'class': 'stats_table sortable', 'data-cols-to-freeze': ',2', 'id': 'per_game-team'})
+    afc_table = soup.find('table', {'class': 'stats_table sortable', 'data-cols-to-freeze': ',1', 'id': 'AFC'})
+    nfc_table = soup.find('table', {'class': 'stats_table sortable', 'data-cols-to-freeze': ',1', 'id': 'NFC'})
     teams = []
     ids = {}
     trs = table.find_all('tr')
